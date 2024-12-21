@@ -1,6 +1,8 @@
 <template>
   <div class="canvas-box">
     <canvas width="460" height="90" ref="drawAreaRef"></canvas>
+    <button @click="clearAc">清空绘制</button>
+    <button @click="drawAc">绘制内容</button>
     <button @click="downloadAc">下载</button>
   </div>
 </template>
@@ -15,12 +17,12 @@ const createText = (cotent) => {
   const text = new fabric.Textbox(cotent, {
     left: 230,
     top: 45,
-    fontFamily: "DaoLiTi",
     fontSize: 55,
     fontWeight: 600,
     originX: "center",
     originY: "center",
     fill: "#000",
+    fontFamily: "DaoLiTi",
   });
   canvas.add(text);
 };
@@ -29,6 +31,12 @@ const downloadAc = () => {
     format: "png",
   });
   downloadFileByBase64(baseImg, "demo");
+};
+const clearAc = () => {
+  canvas.clear();
+};
+const drawAc = () => {
+  createText("阿里妈妈刀隶体");
 };
 onMounted(() => {
   canvas = new fabric.Canvas(drawAreaRef.value);
@@ -43,7 +51,6 @@ onMounted(() => {
   Promise.all([fontDaoLiTi.load()]).then(() => {
     document.fonts.add(fontDaoLiTi);
   });
-  createText("阿里妈妈刀隶体");
 });
 </script>
 
