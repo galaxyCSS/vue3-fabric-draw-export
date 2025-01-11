@@ -15,15 +15,15 @@ let canvas;
 const drawAreaRef = ref();
 const createText = (cotent) => {
   const text = new fabric.Textbox(cotent, {
-    left: 230,
+    left: 130,
     top: 45,
     fontSize: 55,
     fontWeight: 600,
     originX: "center",
     originY: "center",
     fill: "#000",
-    fontFamily: "DaoLiTi",
   });
+  console.log(text);
   canvas.add(text);
 };
 const createPhotoClip = async () => {
@@ -46,6 +46,15 @@ const createPhotoClip = async () => {
   photo.clipPath = clipPath;
   canvas.add(photo);
 };
+const createShapeAc = () => {
+  const rect = new fabric.Rect({
+    width: 120,
+    height: 120,
+    fill: "#1677ff",
+    rx: 5,
+  });
+  canvas.add(rect);
+};
 const downloadAc = () => {
   let baseImg = canvas.toDataURL({
     format: "png",
@@ -59,8 +68,157 @@ const downloadAc = () => {
 const clearAc = () => {
   canvas.clear();
 };
+const path1 = () => {
+  const startPoint = "10 100";
+  const endPoint = "100 100";
+  const controlPoint1 = "10 90";
+  const controlPoint2 = "100 90";
+  const path = new fabric.Path(
+    `M ${startPoint} C ${controlPoint1}, ${controlPoint2}, ${endPoint}`,
+    {
+      stroke: "red",
+      fill: "rgba(0,0,0,0)",
+    }
+  );
+  const helperPtah = new fabric.Path(
+    `M ${startPoint} L ${controlPoint1} M ${controlPoint2} L ${endPoint}`,
+    {
+      stroke: "#000",
+      fill: "rgba(0,0,0,0)",
+    }
+  );
+  canvas.add(path);
+  //canvas.add(helperPtah);
+};
+const path2 = () => {
+  const startPoint = "100 100";
+  const endPoint = "100 120";
+  const controlPoint1 = "105 100";
+  const controlPoint2 = "105 120";
+  const path = new fabric.Path(
+    `M ${startPoint} C ${controlPoint1}, ${controlPoint2}, ${endPoint}`,
+    {
+      stroke: "red",
+      fill: "rgba(0,0,0,0)",
+    }
+  );
+  const helperPtah = new fabric.Path(
+    `M ${startPoint} L ${controlPoint1} M ${controlPoint2} L ${endPoint}`,
+    {
+      stroke: "#000",
+      fill: "rgba(0,0,0,0)",
+    }
+  );
+  canvas.add(path);
+};
+const path3 = () => {
+  const startPoint = "100 120";
+  const endPoint = "10 120";
+  const controlPoint1 = "100 130";
+  const controlPoint2 = "10 130";
+  const path = new fabric.Path(
+    `M ${startPoint} C ${controlPoint1}, ${controlPoint2}, ${endPoint}`,
+    {
+      stroke: "red",
+      fill: "rgba(0,0,0,0)",
+    }
+  );
+  const helperPtah = new fabric.Path(
+    `M ${startPoint} L ${controlPoint1} M ${controlPoint2} L ${endPoint}`,
+    {
+      stroke: "#000",
+      fill: "rgba(0,0,0,0)",
+    }
+  );
+  canvas.add(path);
+  //canvas.add(helperPtah);
+};
+const path4 = () => {
+  const startPoint = "10 120";
+  const endPoint = "10 100";
+  const controlPoint1 = "5 120";
+  const controlPoint2 = "5 100";
+  const path = new fabric.Path(
+    `M ${startPoint} C ${controlPoint1}, ${controlPoint2}, ${endPoint}`,
+    {
+      stroke: "red",
+      fill: "rgba(0,0,0,0)",
+    }
+  );
+  const helperPtah = new fabric.Path(
+    `M ${startPoint} L ${controlPoint1} M ${controlPoint2} L ${endPoint}`,
+    {
+      stroke: "#000",
+      fill: "rgba(0,0,0,0)",
+    }
+  );
+  canvas.add(path);
+};
+const pathCombine = () => {
+  const tl = {
+    x: 74.5,
+    y: 13.425,
+  };
+  const t_pa = {
+    x: tl.x,
+    y: tl.y - 10,
+  };
+  const tr = {
+    x: 185.5,
+    y: 13.425,
+  };
+  const t_pb = {
+    x: tr.x,
+    y: tr.y - 10,
+  };
+  const br = {
+    x: 185.5,
+    y: 76.575,
+  };
+  const r_pa = {
+    x: tr.x + 5,
+    y: tr.y,
+  };
+  const r_pb = {
+    x: br.x + 5,
+    y: br.y,
+  };
+  const bl = {
+    x: 74.5,
+    y: 76.575,
+  };
+  const b_pa = {
+    x: br.x,
+    y: br.y + 10,
+  };
+  const b_pb = {
+    x: bl.x,
+    y: bl.y + 10,
+  };
+  const l_pa = {
+    x: bl.x - 5,
+    y: bl.y,
+  };
+  const l_pb = {
+    x: tl.x - 5,
+    y: tl.y,
+  };
+  const path = new fabric.Path(
+    `M ${tl.x} ${tl.y} C ${t_pa.x} ${t_pa.y}, ${t_pb.x} ${t_pb.y}, ${tr.x} ${tr.y} C ${r_pa.x} ${r_pa.y}, ${r_pb.x} ${r_pb.y}, ${br.x} ${br.y} C ${b_pa.x} ${b_pa.y}, ${b_pb.x} ${b_pb.y}, ${bl.x} ${bl.y} C ${l_pa.x} ${l_pa.y}, ${l_pb.x} ${l_pb.y}, ${tl.x} ${tl.y}`,
+    {
+      stroke: "red",
+      fill: "rgba(0,0,0,0.5)",
+    }
+  );
+  canvas.add(path);
+};
 const drawAc = async () => {
-  createPhotoClip();
+  // path1();
+  // path2();
+  // path3();
+  // path4();
+  pathCombine();
+  createText("双击");
 };
 onMounted(() => {
   canvas = new fabric.Canvas(drawAreaRef.value);
