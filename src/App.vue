@@ -160,7 +160,7 @@ const pathCombine = () => {
     y: 13.425,
   };
   const t_pa = {
-    x: tl.x,
+    x: tl.x + 15,
     y: tl.y - 10,
   };
   const tr = {
@@ -168,7 +168,7 @@ const pathCombine = () => {
     y: 13.425,
   };
   const t_pb = {
-    x: tr.x,
+    x: tr.x - 15,
     y: tr.y - 10,
   };
   const br = {
@@ -176,32 +176,32 @@ const pathCombine = () => {
     y: 76.575,
   };
   const r_pa = {
-    x: tr.x + 5,
-    y: tr.y,
+    x: tr.x + 25,
+    y: tr.y + 15,
   };
   const r_pb = {
-    x: br.x + 5,
-    y: br.y,
+    x: br.x + 25,
+    y: br.y - 15,
   };
   const bl = {
     x: 74.5,
     y: 76.575,
   };
   const b_pa = {
-    x: br.x,
+    x: br.x - 10,
     y: br.y + 10,
   };
   const b_pb = {
-    x: bl.x,
+    x: bl.x + 10,
     y: bl.y + 10,
   };
   const l_pa = {
-    x: bl.x - 5,
-    y: bl.y,
+    x: bl.x - 25,
+    y: bl.y - 10,
   };
   const l_pb = {
-    x: tl.x - 5,
-    y: tl.y,
+    x: tl.x - 25,
+    y: tl.y + 10,
   };
   const path = new fabric.Path(
     `M ${tl.x} ${tl.y} C ${t_pa.x} ${t_pa.y}, ${t_pb.x} ${t_pb.y}, ${tr.x} ${tr.y} C ${r_pa.x} ${r_pa.y}, ${r_pb.x} ${r_pb.y}, ${br.x} ${br.y} C ${b_pa.x} ${b_pa.y}, ${b_pb.x} ${b_pb.y}, ${bl.x} ${bl.y} C ${l_pa.x} ${l_pa.y}, ${l_pb.x} ${l_pb.y}, ${tl.x} ${tl.y}`,
