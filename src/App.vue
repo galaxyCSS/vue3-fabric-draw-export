@@ -1,9 +1,12 @@
 <template>
   <div class="canvas-box">
-    <canvas width="240" height="240" ref="drawAreaRef"></canvas>
+    <canvas width="240" height="290" ref="drawAreaRef"></canvas>
     <button @click="clearAc">清空绘制</button>
     <button @click="drawAc">绘制内容</button>
     <button @click="downloadAc">下载</button>
+  </div>
+  <div>
+    <img :src="baseUrl" alt="" />
   </div>
 </template>
 
@@ -11,8 +14,11 @@
 import * as fabric from "fabric";
 import { downloadFileByBase64 } from "@/utils";
 import { ref, onMounted } from "vue";
+import { f as filterObj } from "@/utils/filter.js";
+const baseUrl = ref("");
 let canvas;
 const drawAreaRef = ref();
+
 const createText = (cotent) => {
   const text = new fabric.Textbox(cotent, {
     left: 130,
@@ -28,22 +34,29 @@ const createText = (cotent) => {
 };
 const createPhotoClip = async () => {
   let url =
-    "https://images.pexels.com/photos/1671479/pexels-photo-1671479.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940";
+    "https://n.sinaimg.cn/sinakd10111/309/w1242h1467/20201118/e9c5-kcysmrw5281733.jpg";
   // 添加跨域支持
   let photo = await fabric.FabricImage.fromURL(url, {
     crossOrigin: "anonymous",
   });
-  const clipPath = new fabric.Rect({
-    width: 240,
-    height: 120,
-    left: -120,
-    top: -60,
+  const filter = new filterObj.Blur({
+    blur: 0.5,
   });
   photo.set({
-    width: 240,
-    height: 240,
+    filters: [filter],
+    scaleX: 0.2,
+    scaleY: 0.2,
   });
-  photo.clipPath = clipPath;
+  photo.applyFilters();
+  let baseImg = photo.toDataURL({
+    format: "png",
+    left: 0,
+    top: 0,
+    width: 240,
+    height: 290,
+  });
+  console.log(baseImg);
+  baseUrl.value = baseImg;
   canvas.add(photo);
 };
 const createShapeAc = () => {
@@ -61,7 +74,7 @@ const downloadAc = () => {
     left: 0,
     top: 0,
     width: 240,
-    height: 240,
+    height: 290,
   });
   downloadFileByBase64(baseImg, "demo");
 };
@@ -157,35 +170,35 @@ const path4 = () => {
 const pathCombine = () => {
   const tl = {
     x: 74.5,
-    y: 13.425,
+    y: 33.425,
   };
   const t_pa = {
-    x: tl.x + 15,
-    y: tl.y - 10,
+    x: tl.x + 5,
+    y: tl.y - 15,
   };
   const tr = {
     x: 185.5,
-    y: 13.425,
+    y: 33.425,
   };
   const t_pb = {
-    x: tr.x - 15,
-    y: tr.y - 10,
+    x: tr.x - 5,
+    y: tr.y - 15,
   };
   const br = {
     x: 185.5,
-    y: 76.575,
+    y: 66.575,
   };
   const r_pa = {
-    x: tr.x + 25,
-    y: tr.y + 15,
+    x: tr.x + 10,
+    y: tr.y + 10,
   };
   const r_pb = {
-    x: br.x + 25,
-    y: br.y - 15,
+    x: br.x + 10,
+    y: br.y - 10,
   };
   const bl = {
     x: 74.5,
-    y: 76.575,
+    y: 66.575,
   };
   const b_pa = {
     x: br.x - 10,
@@ -196,20 +209,17 @@ const pathCombine = () => {
     y: bl.y + 10,
   };
   const l_pa = {
-    x: bl.x - 25,
-    y: bl.y - 10,
+    x: bl.x - 10,
+    y: bl.y - 8,
   };
   const l_pb = {
-    x: tl.x - 25,
-    y: tl.y + 10,
+    x: tl.x - 10,
+    y: tl.y + 8,
   };
-  const path = new fabric.Path(
-    `M ${tl.x} ${tl.y} C ${t_pa.x} ${t_pa.y}, ${t_pb.x} ${t_pb.y}, ${tr.x} ${tr.y} C ${r_pa.x} ${r_pa.y}, ${r_pb.x} ${r_pb.y}, ${br.x} ${br.y} C ${b_pa.x} ${b_pa.y}, ${b_pb.x} ${b_pb.y}, ${bl.x} ${bl.y} C ${l_pa.x} ${l_pa.y}, ${l_pb.x} ${l_pb.y}, ${tl.x} ${tl.y}`,
-    {
-      stroke: "red",
-      fill: "rgba(0,0,0,0.5)",
-    }
-  );
+  const path = new fabric.Path(`M ${bl.x} ${bl.y} L ${br.x} ${br.y}`, {
+    stroke: "#eb2f96",
+    strokeWidth: 5,
+  });
   canvas.add(path);
 };
 const drawAc = async () => {
@@ -217,8 +227,9 @@ const drawAc = async () => {
   // path2();
   // path3();
   // path4();
-  pathCombine();
-  createText("双击");
+  // pathCombine();
+  // createText("Abc");
+  createPhotoClip();
 };
 onMounted(() => {
   canvas = new fabric.Canvas(drawAreaRef.value);
